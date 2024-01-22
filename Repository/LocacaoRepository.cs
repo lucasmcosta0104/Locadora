@@ -35,6 +35,7 @@ namespace Locadora.Repository
         {
             return await _context.Locacao
                 .Include(x => x.Veiculo)
+                .Include(x => x.Cliente)
                 .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
@@ -47,6 +48,11 @@ namespace Locadora.Repository
         public async Task SaveChangesAsync(CancellationToken cancellationToken)
         {
             await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public IQueryable<Locacao> Find()
+        {
+            return _context.Locacao;
         }
     }
 }

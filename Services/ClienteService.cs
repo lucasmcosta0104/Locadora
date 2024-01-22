@@ -1,6 +1,7 @@
 ﻿using Locadora.Dto;
 using Locadora.Interface;
 using Locadora.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Locadora.Services
 {
@@ -32,9 +33,11 @@ namespace Locadora.Services
             return $"Cliente {cliente.Nome} foi bloqueado";
         }
 
-        public async Task<ICollection<Cliente>> BuscaCompleta(CancellationToken cancellationToken)
+        public async Task<ICollection<Cliente>> BuscaCompleta(int idLocadora, CancellationToken cancellationToken)
         {
-            return await _repository.All(cancellationToken);
+            return await _repository.Find()
+                .Where(x => x.LocadoraModeloId == idLocadora)
+                .ToListAsync(cancellationToken);
         }
 
         public async Task<Cliente> Buscar(int id, CancellationToken cancellationToken)

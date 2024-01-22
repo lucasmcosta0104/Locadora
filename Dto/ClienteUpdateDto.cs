@@ -1,6 +1,6 @@
 ﻿namespace Locadora.Dto
 {
-    public class ClienteUpdateDto
+    public record ClienteUpdateDto
     {
         public string Enedereco { get; set; }
         public string Telefone { get; set; }

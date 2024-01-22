@@ -49,7 +49,8 @@ namespace Locadora.Services
         private static ClaimsIdentity GerarClains(Usuario usuario)
         {
             var claims = new ClaimsIdentity();
-            claims.AddClaim(new Claim(ClaimTypes.Name, usuario.Email));
+            claims.AddClaim(new Claim(ClaimTypes.Name, usuario.NomeUsuario));
+            claims.AddClaim(new Claim("IdLocadora", usuario.LocadoraModeloId.ToString()));
             foreach (var item in usuario.Roles)
             {
                 claims.AddClaim(new Claim(ClaimTypes.Role, item));
@@ -60,7 +61,16 @@ namespace Locadora.Services
 
         private async Task<Usuario> VerificarUsusario(LoginDto dto, CancellationToken cancellationToken)
         {
-            return await _context.Usuario.FirstOrDefaultAsync(x => x.Email == dto.Usuario && x.Senha == dto.Senha, cancellationToken);
+            return await _context.Usuario.FirstOrDefaultAsync(x => x.NomeUsuario == dto.Usuario && x.Senha == dto.Senha, cancellationToken);
+        }
+
+        public int? RetornaIdLocadora(ClaimsPrincipal user)
+        {
+            var idlocadora = user.Identities.Select(x => x.Claims.Where(y => y.Type == "IdLocadora").FirstOrDefault().Value).FirstOrDefault();
+            if (idlocadora.IsNullOrEmpty())
+                return null;
+
+            return int.Parse(idlocadora);
         }
     }
 }

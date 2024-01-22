@@ -8,22 +8,22 @@ namespace Locadora.Models
     {
         public int Id { get; set; }
         [Required]
-        public DateTime DataRetirada { get; set; }
-        public DateTime DataEntrega { get; set; }
+        public DateTime DataRetirada { get; private set; }
+        public DateTime DataEntrega { get; private set; }
         [Required]
-        public int ClienteId { get; set; }
+        public int ClienteId { get; private set; }
         [Required]
-        public int VeiculoId { get; set; }
+        public int VeiculoId { get; private set; }
         [Required]
-        public int LocadoraModeloId { get; set; }
+        public int LocadoraModeloId { get; private set; }
         [Required]
-        public int QuantidadeDiarias { get; set; }
-        public int QuantidaDiariaMulta { get; set; }
-        public string Observacao { get; set; }
+        public int QuantidadeDiarias { get; private set; }
+        public int QuantidaDiariaMulta { get; private set; }
+        public string Observacao { get; private set; }
         [JsonIgnore]
-        public virtual Veiculo Veiculo { get; set; }
+        public virtual Veiculo Veiculo { get; private set; }
         [JsonIgnore]
-        public virtual Cliente Cliente { get; set; }
+        public virtual Cliente Cliente { get; private set; }
         [JsonIgnore]
         public virtual LocadoraModelo LocadoraModelo { get; set; }
 

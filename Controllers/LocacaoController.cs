@@ -36,10 +36,10 @@ namespace Locadora.Controllers
             return Ok(await _service.Entregar(id, cancellationToken));
         }
 
-        [HttpGet("BuscaCompleta")]
-        public async Task<IActionResult> Todos(CancellationToken cancellationToken = default)
+        [HttpGet("BuscaCompleta/{idLocadora}")]
+        public async Task<IActionResult> Todos(int idLocadora, CancellationToken cancellationToken = default)
         {
-            return Ok(await _service.BuscaCompleta(cancellationToken));
+            return Ok(await _service.BuscaCompleta(idLocadora, cancellationToken));
         }
     }
 }

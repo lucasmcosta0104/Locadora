@@ -46,5 +46,10 @@ namespace Locadora.Repository
             _context.Update(entity);
             await _context.SaveChangesAsync(cancellationToken);
         }
+
+        public IQueryable<Veiculo> Find()
+        {
+            return _context.Veiculo;
+        }
     }
 }

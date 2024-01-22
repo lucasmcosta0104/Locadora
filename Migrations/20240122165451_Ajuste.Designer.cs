@@ -4,6 +4,7 @@ using Locadora.Infra;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Locadora.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240122165451_Ajuste")]
+    partial class Ajuste
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,26 +122,21 @@ namespace Locadora.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CNPJ")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Endereco")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nome")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Segmento")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Telefone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -154,24 +152,16 @@ namespace Locadora.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("LocadoraModeloId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("NomeUsuario")
-                        .IsRequired()
+                    b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Roles")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Senha")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LocadoraModeloId");
 
                     b.ToTable("Usuario");
                 });
@@ -188,7 +178,6 @@ namespace Locadora.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Cor")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Disponibilidade")
@@ -198,15 +187,12 @@ namespace Locadora.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Marca")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Modelo")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Placa")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("ValorDiaria")
@@ -258,15 +244,6 @@ namespace Locadora.Migrations
                     b.Navigation("Veiculo");
                 });
 
-            modelBuilder.Entity("Locadora.Models.Usuario", b =>
-                {
-                    b.HasOne("Locadora.Models.LocadoraModelo", "LocadoraModelo")
-                        .WithMany("Usuarios")
-                        .HasForeignKey("LocadoraModeloId");
-
-                    b.Navigation("LocadoraModelo");
-                });
-
             modelBuilder.Entity("Locadora.Models.Veiculo", b =>
                 {
                     b.HasOne("Locadora.Models.LocadoraModelo", "LocadoraModelo")
@@ -288,8 +265,6 @@ namespace Locadora.Migrations
                     b.Navigation("Clientes");
 
                     b.Navigation("Locacoes");
-
-                    b.Navigation("Usuarios");
 
                     b.Navigation("Veiculos");
                 });

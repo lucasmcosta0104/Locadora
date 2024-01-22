@@ -1,6 +1,8 @@
 ﻿using Locadora.Dto;
 using Locadora.Interface;
+using Locadora.Migrations;
 using Locadora.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Locadora.Services
 {
@@ -41,21 +43,38 @@ namespace Locadora.Services
             await _repository.Add(locacao, cancellationToken);
             await _repository.SaveChangesAsync(cancellationToken);
 
-            return $"Veículo {veiculo.Marca} {veiculo.Modelo} {veiculo.Placa} foi alugado com succeso para o Cliente {cliente.Nome}";
+            return $"Veículo {veiculo.RetornaMarcaModeloPlacaVeiculo()} foi alugado com succeso para o Cliente {cliente.Nome}";
         }
 
-        public async Task<ICollection<Locacao>> BuscaCompleta(CancellationToken cancellationToken)
+        public async Task<ICollection<LocacaoViewDto>> BuscaCompleta(int idLocadora, CancellationToken cancellationToken)
         {
-            return await _repository.All(cancellationToken);
+            var listLocacaoDto = await _repository.Find()
+                .Where(x => x.LocadoraModeloId == idLocadora)
+                .Select(x => new LocacaoViewDto
+                {
+                    Id = x.Id,
+                    DataEntrega = x.DataEntrega,
+                    DataRetirada = x.DataRetirada,
+                    QuantidadeDiarias = x.QuantidadeDiarias,
+                    QuantidaDiariaMulta = x.QuantidaDiariaMulta,
+                    LocadoraModeloId = x.LocadoraModeloId,
+                    Observacao = x.Observacao,
+                    Veiculo = x.Veiculo.RetornaMarcaModeloPlacaVeiculo(),
+                    Cliente = x.Cliente.Nome,
+                    VeiculoId = x.VeiculoId,
+                    ClienteId = x.ClienteId
+                }).ToListAsync(cancellationToken);
+
+            return listLocacaoDto;
         }
 
-        public async Task<Locacao> Buscar(int id, CancellationToken cancellationToken)
+        public async Task<LocacaoViewDto> Buscar(int id, CancellationToken cancellationToken)
         {
             var locacao = await _repository.Find(id, cancellationToken);
             if (locacao == null)    
                 throw new ArgumentNullException(nameof(locacao), "Locação não encontrada, solicitar suporte.");
-
-            return await _repository.Find(id, cancellationToken);
+            
+            return RetornarLocacaoDto(locacao);
         }
 
         public async Task<string> Entregar(int id, CancellationToken cancellationToken)
@@ -71,7 +90,25 @@ namespace Locadora.Services
             await locacao.Veiculo.EntregaLocacao();
             var valorTotal = locacao.Veiculo.CalcularValorTotalLocacao(diarias, locacao.QuantidaDiariaMulta);
             await _repository.SaveChangesAsync(cancellationToken);
-            return $"O valor total da locação do veículo {locacao.Veiculo.Modelo} {locacao.Veiculo.Placa} foi de {valorTotal.ToString("C")}";
+            return $"O valor total da locação do veículo {locacao.Veiculo.RetornaMarcaModeloPlacaVeiculo()} foi de {valorTotal.ToString("C")}";
+        }
+
+        private LocacaoViewDto RetornarLocacaoDto(Locacao locacao)
+        {
+            return new LocacaoViewDto
+            {
+                Id = locacao.Id,
+                DataEntrega = locacao.DataEntrega,
+                DataRetirada = locacao.DataRetirada,
+                QuantidadeDiarias = locacao.QuantidadeDiarias,
+                QuantidaDiariaMulta = locacao.QuantidaDiariaMulta,
+                LocadoraModeloId = locacao.LocadoraModeloId,
+                Observacao = locacao.Observacao,
+                Veiculo = locacao.Veiculo.RetornaMarcaModeloPlacaVeiculo(),
+                Cliente = locacao.Cliente.Nome,
+                VeiculoId = locacao.VeiculoId,
+                ClienteId = locacao.ClienteId
+            };
         }
     }
 }

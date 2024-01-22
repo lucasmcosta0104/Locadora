@@ -1,5 +1,6 @@
 ﻿using Locadora.Dto;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Locadora.Models
@@ -7,13 +8,20 @@ namespace Locadora.Models
     public class Veiculo
     {
         public int Id { get; set; }
-        public string Marca { get; set; }    
-        public string Modelo { get; set; }    
-        public int Ano { get; set; }    
-        public string Cor { get; set; }      
+        [Required]
+        public string Marca { get; set; }
+        [Required]
+        public string Modelo { get; set; }
+        [Required]
+        public int Ano { get; set; }
+        [Required]
+        public string Cor { get; set; }
+        [Required]
         public string Placa { get; set; }
         [Precision(17, 2)]
-        public decimal ValorDiaria { get; set; }    
+        [Required]
+        public decimal ValorDiaria { get; set; }
+        [Required]
         public bool Disponibilidade { get; set; }
         public int LocadoraModeloId { get; set; }
         public virtual LocadoraModelo LocadoraModelo { get; set;}
@@ -67,6 +75,11 @@ namespace Locadora.Models
         public decimal CalcularValorTotalLocacao(int quantidadeDias, int diariasComMulta)
         {
             return (quantidadeDias - diariasComMulta) * ValorDiaria + (diariasComMulta * ValorDiaria * 1.20M);
+        }
+
+        public string RetornaMarcaModeloPlacaVeiculo()
+        {
+            return $"{Marca} {Modelo} {Placa}";
         }
     }
 }

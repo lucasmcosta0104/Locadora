@@ -1,4 +1,5 @@
 ﻿using Locadora.Dto;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Locadora.Models
@@ -6,10 +7,15 @@ namespace Locadora.Models
     public class LocadoraModelo
     {
         public int Id { get; private set; }
+        [Required]
         public string Nome { get; private set; }
+        [Required]
         public string CNPJ { get; private set; }
+        [Required]
         public string Endereco { get; private set; }
+        [Required]
         public string Telefone { get; private set; }
+        [Required]
         public string Email { get; private set; }
         public string Segmento { get; private set; }
         [JsonIgnore]
@@ -18,6 +24,8 @@ namespace Locadora.Models
         public virtual ICollection<Veiculo> Veiculos { get; private set; }
         [JsonIgnore]
         public virtual ICollection<Locacao> Locacoes { get; private set; }
+        [JsonIgnore]
+        public virtual ICollection<Usuario> Usuarios { get; private set; }
 
         public Task Adicionar(LocadoraDto dto)
         {

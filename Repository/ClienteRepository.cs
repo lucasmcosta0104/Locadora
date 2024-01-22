@@ -46,5 +46,10 @@ namespace Locadora.Repository
         {
             await _context.SaveChangesAsync(cancellationToken);
         }
+
+        public IQueryable<Cliente> Find()
+        {
+            return _context.Cliente;
+        }
     }
 }

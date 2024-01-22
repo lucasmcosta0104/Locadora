@@ -1,9 +1,10 @@
 ﻿namespace Locadora.Dto
 {
-    public class UsuarioDto
+    public record UsuarioDto
     {
-        public string Email { get; set; }
+        public string NomeUsuario { get; set; }
         public string Senha { get; set; }
+        public int? LocadoraModeloId { get; set; }
         public string CodigoAdministrador { get; set; }
     }
 }

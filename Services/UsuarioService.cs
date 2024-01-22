@@ -1,6 +1,7 @@
 ﻿using Locadora.Dto;
 using Locadora.Interface;
 using Locadora.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Locadora.Services
 {
@@ -18,7 +19,7 @@ namespace Locadora.Services
         {
             var usuario = new Usuario();
             var usuarioAdministrador = _configuration.GetSection("appsettings").GetValue<string>("Administrador") == dto.CodigoAdministrador;
-            await usuario.Adicionar(dto.Email, dto.Senha, usuarioAdministrador ?["admin"] : ["padrao"]);
+            await usuario.Adicionar(dto.NomeUsuario, dto.Senha, usuarioAdministrador ?["admin"] : ["padrao"], dto.LocadoraModeloId != 0 ? dto.LocadoraModeloId : null);
             await _repository.Add(usuario, cancellationToken);
         }
 
@@ -48,9 +49,11 @@ namespace Locadora.Services
             await _repository.Update(usuario, cancellationToken);
         }
 
-        public async Task<ICollection<Usuario>> BuscaCompleta(CancellationToken cancellationToken)
+        public async Task<ICollection<Usuario>> BuscaCompleta(int? idLocadora, CancellationToken cancellationToken)
         {
-            return await _repository.All(cancellationToken);
+            return await _repository.Find()
+                .Where(x => !idLocadora.HasValue || (x.LocadoraModeloId == idLocadora))
+                .ToListAsync(cancellationToken);
         }
 
         public async Task DefinirAdministrador(int id, CancellationToken cancellationToken)

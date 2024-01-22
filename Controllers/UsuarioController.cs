@@ -13,6 +13,7 @@ namespace Locadora.Controllers
     {
         private readonly ITokenService _tokenService;
         private readonly UsuarioService _usuarioService;
+        private readonly int idLocadora;
 
         public UsuarioController(ITokenService tokenService, UsuarioService usuarioService)
         {
@@ -54,10 +55,11 @@ namespace Locadora.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Todos(CancellationToken cancellationToken = default)
         {
-            return Ok(await _usuarioService.BuscaCompleta(cancellationToken));
+            var idLocadora = _tokenService.RetornaIdLocadora(User);
+            return Ok(await _usuarioService.BuscaCompleta(idLocadora, cancellationToken));
         }
 
-        [HttpGet("DefinirAdministrador/{id}")]
+        [HttpPut("DefinirAdministrador/{id}")]
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> DefinirAdministrador(int id, CancellationToken cancellationToken = default)
         {

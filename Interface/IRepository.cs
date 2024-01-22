@@ -8,5 +8,6 @@
         Task<T> Find(int id, CancellationToken cancellationToken);    
         Task<ICollection<T>> All(CancellationToken cancellationToken);
         Task SaveChangesAsync(CancellationToken cancellationToken);
+        IQueryable<T> Find();
     }
 }

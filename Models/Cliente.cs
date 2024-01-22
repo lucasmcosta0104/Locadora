@@ -1,19 +1,27 @@
 ﻿using Locadora.Dto;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Locadora.Models
 {
     public class Cliente
     {
-        public int Id { get; set; }
-        public string Nome { get; set; }
-        public string CPF { get; set; }
-        public string RG { get; set; }
-        public string Enedereco { get; set; }
-        public string Telefone { get; set; }
-        public string Email { get; set; }
-        public bool Bloqueado { get; set; }
-        public int LocadoraModeloId { get; set; }
+        public int Id { get; private set; }
+        [Required]
+        public string Nome { get;private  set; }
+        [Required]
+        public string CPF { get; private set; }
+        [Required]
+        public string RG { get; private set; }
+        [Required]
+        public string Enedereco { get; private set; }
+        [Required]
+        public string Telefone { get; private set; }
+        [Required]
+        public string Email { get; private set; }
+        public bool Bloqueado { get; private set; }
+        public int LocadoraModeloId { get; private set; }
         [JsonIgnore]
         public virtual LocadoraModelo LocadoraModelo { get; private set; }
         [JsonIgnore]

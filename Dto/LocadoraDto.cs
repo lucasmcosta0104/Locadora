@@ -1,6 +1,6 @@
 ﻿namespace Locadora.Dto
 {
-    public class LocadoraDto
+    public record LocadoraDto
     {
         public string Nome { get; set; }
         public string CNPJ { get; set; }
