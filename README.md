@@ -175,7 +175,7 @@ Api:
     Esse é o objetivo de modelo final para o projeto.
     Se aproxímando de uma aplicação real para locadoras de veículos:
 
-    ![image](https://github.com/lucasmcosta0104/Locadora/assets/115005071/97bbfb53-756f-4933-913e-e723422c4116)
+  https://github.com/lucasmcosta0104/Locadora/assets/115005071/97bbfb53-756f-4933-913e-e723422c4116
 
     
 
