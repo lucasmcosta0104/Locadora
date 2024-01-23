@@ -7,6 +7,18 @@ Utilizando injeção de dependência.
 
 Buscando deixar o código mais legível e limpo.
 
+Utilizei camada de repositório para fazer as consultas no banco.
+
+Implementei a IRepository<T> nos meus repositórios, definindo contratos e desacoplando a camada de acesso as repositórios.
+
+Camada de services onde deixei minha regra de negócio.
+
+Deixei a funções unicas de cada modelo dentro das models.
+
+Não ficou nenhuma regra de negócio dentro das controllers, apenas a injeção de service e a chamada dos métodos.
+
+Urilizei Data Anotations para definir regras nas propriedades das classes.
+
 Segue o link com Swagger.
 
 https://locadora-api.azurewebsites.net/swagger/index.html
