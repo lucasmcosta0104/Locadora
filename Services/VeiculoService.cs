@@ -1,6 +1,7 @@
 ﻿using Locadora.Dto;
 using Locadora.Interface;
 using Locadora.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Locadora.Services
 {
@@ -27,9 +28,11 @@ namespace Locadora.Services
             return $"Veiculo {veiculo.Marca} {veiculo.Modelo} {veiculo.Placa} foi adicionado com sucesso";
         }
 
-        public async Task<ICollection<Veiculo>> BuscaCompleta(CancellationToken cancellationToken)
+        public async Task<ICollection<Veiculo>> BuscaCompleta(int idLocadora, CancellationToken cancellationToken)
         {
-            return await _repository.All(cancellationToken);
+            return await _repository.Find()
+                .Where(x => x.LocadoraModeloId == idLocadora)
+                .ToListAsync(cancellationToken);
         }
 
         public async Task<Veiculo> Buscar(int id, CancellationToken cancellationToken)
